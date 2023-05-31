@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
+import { IOutage } from '../interfaces/IOutage';
 import { getAllOutages } from '../services/outagesService';
 
 export const getOutages = async (req: Request, res: Response): Promise<void> => {
   try {
-    const outages = await getAllOutages();
+    const outages: IOutage[] = await getAllOutages();
     res.json(outages);
   } catch (error: unknown) {
     if (error instanceof Error) {
