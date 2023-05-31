@@ -8,11 +8,11 @@ export const processOutagesForSite = async (siteId: string): Promise<void> => {
     const outages = await getAllOutages();
     const siteInfo = await getSiteInfo(siteId);
     const filteredOutages = filterOutagesByDate(outages, new Date(DEFAULT_DATE_FILTER));
-		const outagesByDeviceId = filterOutagesByDeviceId(filteredOutages, siteInfo);
+    const outagesByDeviceId = filterOutagesByDeviceId(filteredOutages, siteInfo)
     const filteredAndEnhancedOutages = enhanceOutagesWithDeviceName(outagesByDeviceId, siteInfo);
     await postSiteOutages(siteId, filteredAndEnhancedOutages);
-    console.log('Site Info :', siteInfo)
-		console.log('Filtered Outages :', filteredAndEnhancedOutages)
+    console.log('Site info:', siteInfo);
+    console.log('Filtered Outages: ', filteredAndEnhancedOutages)
   } catch (error) {
     console.error(ERROR_MESSAGES.TASK_FAILED, error);
   }
