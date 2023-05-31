@@ -147,8 +147,10 @@ Thank you.
 Start by cloning this repository<br />
 `git clone https://github.com/serhat-alkin/krakenflex-backend-task` <br />
 
-On the root folder, create .env file and copy/paste the following information. I haven't commited .env file for security purposes since it contains API Key <br />
+To ensure the security of the API Key, it is important to follow these steps:
 
+On the root folder of the project, create a new file named .env.
+Copy and paste the following information into the .env file: <br />
 ```
 PORT=3000
 API_KEY=THE API KEY YOU PROVIDED TO ME ONCE YOU SENT THE PROJECT VIA EMAIL
