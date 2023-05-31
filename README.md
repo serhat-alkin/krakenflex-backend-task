@@ -147,6 +147,14 @@ Thank you.
 Start by cloning this repository<br />
 `git clone https://github.com/serhat-alkin/krakenflex-backend-task` <br />
 
+On the root folder, create .env file and copy/paste the following information. I haven't commited .env file for security purposes since it contains API Key <br />
+
+```
+PORT=3000
+API_KEY=THE API KEY YOU PROVIDED TO ME ONCE YOU SENT THE PROJECT VIA EMAIL
+API_URL=https://api.krakenflex.systems/interview-tests-mock-api/v1
+```
+
 Execute `npm install` to install dependencies <br />
 
 Execute `npm test` to run tests <br />
