@@ -2,7 +2,6 @@ import { IOutage } from '../interfaces/IOutage';
 import { IOutagePost } from '../interfaces/IOutagePost';
 import { ISiteInfo } from '../interfaces/ISiteInfo';
 
-
 export const filterOutagesByDate = (outages: IOutage[], date: Date): IOutage[] => {
   return outages.filter(outage => new Date(outage.begin) >= date);
 }

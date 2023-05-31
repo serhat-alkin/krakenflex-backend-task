@@ -13,6 +13,10 @@ describe("Outage Utils", () => {
   let outagesWithName: IOutagePost[];
   let outagesFilteredByDate: IOutage[];
   let outagesFilteredByDeviceId: IOutage[];
+  let oldOutages: IOutage[];
+  let outagesNotBelongToSite: IOutage[];
+  let outagesWithNoBeginDate: IOutage[];
+  let outageWithBeginDate: IOutage[];
   beforeEach(() => {
     outages = [
       {
@@ -44,6 +48,32 @@ describe("Outage Utils", () => {
         id: "27820d4a-1bc4-4fc1-a5f0-bcb3627e94a1",
         begin: "2021-07-12T16:31:47.254Z",
         end: "2022-10-13T04:05:10.044Z",
+      },
+    ];
+
+    oldOutages = [
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2021-07-26T17:09:31.036Z",
+        end: "2021-08-29T00:37:42.253Z",
+      },
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2021-05-23T12:21:27.377Z",
+        end: "2022-11-13T02:16:38.905Z",
+      },
+    ];
+
+    outagesNotBelongToSite = [
+      {
+        id: "102b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2022-05-23T12:21:27.377Z",
+        end: "2022-11-13T02:16:38.905Z",
+      },
+      {
+        id: "302b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2022-12-04T09:59:33.628Z",
+        end: "2022-12-12T22:35:13.815Z",
       },
     ];
 
@@ -123,6 +153,32 @@ describe("Outage Utils", () => {
         end: "2022-10-13T04:05:10.044Z",
       },
     ];
+
+    outagesWithNoBeginDate = [
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2022-08-28T00:37:42.253Z",
+        end: "2022-08-29T00:37:42.253Z",
+      },
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "",
+        end: "2022-11-13T02:16:38.905Z",
+      },
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "",
+        end: "2022-12-12T22:35:13.815Z",
+      },
+    ];
+
+    outageWithBeginDate = [
+      {
+        id: "002b28fc-283c-47ec-9af2-ea287336dc1b",
+        begin: "2022-08-28T00:37:42.253Z",
+        end: "2022-08-29T00:37:42.253Z",
+      },
+    ];
   });
 
   it("should filter outages by date", () => {
@@ -151,4 +207,53 @@ describe("Outage Utils", () => {
     expect(enhancedOutages).toHaveLength(3);
     expect(enhancedOutages).toEqual(outagesWithName);
   });
+
+  it("should handle empty outages array", () => {
+    const emptyOutages: IOutage[] = filterOutagesByDate(
+      oldOutages,
+      new Date(2022, 0, 1)
+    );
+    const filteredOutagesByDate: IOutage[] = filterOutagesByDate(
+      emptyOutages,
+      new Date(2022, 0, 1)
+    );
+    expect(filteredOutagesByDate).toEqual([]);
+
+    const filteredOutagesByDeviceId: IOutage[] = filterOutagesByDeviceId(
+      filteredOutagesByDate,
+      siteInfo
+    );
+    expect(filteredOutagesByDeviceId).toEqual([]);
+
+    const enhancedOutages: IOutagePost[] = enhanceOutagesWithDeviceName(
+      filteredOutagesByDeviceId,
+      siteInfo
+    );
+    expect(enhancedOutages).toEqual([]);
+  });
+
+  it("should return empty array if outage dates are inside the valid date period but outages not belong to the site", () => {
+    const filteredOutages: IOutage[] = filterOutagesByDate(
+      outagesNotBelongToSite,
+      new Date(2022, 0, 1)
+    );
+    expect(filteredOutages).toHaveLength(2);
+    expect(filteredOutages).toEqual(outagesNotBelongToSite);
+
+    const filteredOutagesByDeviceId: IOutage[] = filterOutagesByDeviceId(
+      filteredOutages,
+      siteInfo
+    );
+    expect(filteredOutagesByDeviceId).toEqual([]);
+  });
+
+  it("should not return outages with no begin date", () => {
+    const filteredOutages: IOutage[] = filterOutagesByDate(
+      outagesWithNoBeginDate,
+      new Date(2022, 0, 1)
+    );
+    expect(filteredOutages).toHaveLength(1);
+    expect(filteredOutages).toEqual(outageWithBeginDate);
+  });
+
 });
