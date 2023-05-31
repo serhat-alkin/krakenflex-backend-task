@@ -7,7 +7,6 @@ export const retryWithDelay = async <T>(fn: () => Promise<T>, errorMessage: stri
       return await fn();
     } catch (error) {
       attempts++;
-      console.log(`Attempt ${attempts} failed. Retrying after ${DELAY_MILLISECONDS}ms...`);
       await new Promise(resolve => setTimeout(resolve, DELAY_MILLISECONDS));
     }
   }

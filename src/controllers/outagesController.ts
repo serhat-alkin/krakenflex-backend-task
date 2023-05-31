@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { IOutage } from '../interfaces/IOutage';
 import { getAllOutages, postSiteOutages } from '../services/outagesService';
+import { ERROR_MESSAGES } from '../constants';
 
 export const getOutages = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -10,7 +11,7 @@ export const getOutages = async (req: Request, res: Response): Promise<void> => 
     if (error instanceof Error) {
       res.status(500).send(error.message);
     } else {
-      res.status(500).send('Unknown error occurred');
+      res.status(500).send(ERROR_MESSAGES.UNKNOWN_ERROR);
     }
   }
 };
@@ -25,7 +26,7 @@ export const postOutages = async (req: Request, res: Response): Promise<void> =>
     if (error instanceof Error) {
       res.status(500).send(error.message);
     } else {
-      res.status(500).send('Unknown error occurred');
+      res.status(500).send(ERROR_MESSAGES.UNKNOWN_ERROR);
     }
   }
 };

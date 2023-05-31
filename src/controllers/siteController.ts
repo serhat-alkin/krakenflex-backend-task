@@ -1,6 +1,7 @@
 ﻿import { Request, Response } from 'express';
 import { ISiteInfo } from '../interfaces/ISiteInfo';
 import { getSiteInfo as getServiceSiteInfo } from '../services/siteService'
+import { ERROR_MESSAGES } from '../constants';
 
 export const getSiteInfo = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,7 +12,7 @@ export const getSiteInfo = async (req: Request, res: Response): Promise<void> =>
     if (error instanceof Error) {
       res.status(500).send(error.message);
     } else {
-      res.status(500).send('Unknown error occurred');
+      res.status(500).send(ERROR_MESSAGES.UNKNOWN_ERROR);
     }
   }
 };
