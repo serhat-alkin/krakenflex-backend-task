@@ -160,7 +160,7 @@ Server is going to start running at http://localhost:3000
 
 The implementation has been developed following the principles of Test-Driven Development and the Single Responsibility Principle.
 
-1- Following API endpoints has been created
+1- Following API endpoints has been created.
 
 | Method   | Endpoint            | Description                           |
 | -----    | ------------------- | ------------------------------------- |
@@ -168,7 +168,7 @@ The implementation has been developed following the principles of Test-Driven De
 | `GET`    | `/site-info/:siteId` | Retrieve site with the given id.     |
 | `POST`   | `/site-outages/:siteId`    | Post outages          |
 
-In case of 3rd party api returns 500, it will rety with 1000 ms delay up to 3 times.
+In case of 3rd party api returns 500, it will retry with 1000 ms delay up to 3 times.
 
 2- A task.ts file has been created to meet the requirements. When the project is started, a method in that file is executed, which performs the following steps:
 * Sends a GET request to retrieve all outages from the URL "https://api.krakenflex.systems/interview-tests-mock-api/v1/outages" using the provided API key.
