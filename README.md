@@ -1,5 +1,5 @@
 # KrakenFlex Back End Test
-
+## The "Setup and Implementation Details" section has been placed at the bottom of the README file.
 ## Introduction
 
 This test is designed to help you showcase your back end engineering skills. We are interested to see how you work and
