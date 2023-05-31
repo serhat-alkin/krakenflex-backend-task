@@ -1,4 +1,3 @@
-
 import { getAllOutages } from '../src/services/outagesService';
 import { IOutage } from '../src/interfaces/IOutage';
 import { instance } from '../src/axiosInstance';
@@ -31,6 +30,8 @@ describe('Outages Service', () => {
       const res: IOutage[] = await getAllOutages();
       
       expect(res).toEqual(mockOutages);
+      expect(instance.get).toHaveBeenCalledTimes(1);
+      expect(instance.get).toHaveBeenCalledWith('/outages');
     });
 
     it('should fail to fetch outages after MAX_RETRIES attempts', async () => {
@@ -46,6 +47,27 @@ describe('Outages Service', () => {
       }
 
       expect(instance.get).toHaveBeenCalledTimes(MAX_RETRIES);
+    });
+
+    it('should fetch all outages after 2 failed attempts', async () => {
+      const mockOutages: IOutage[] = [
+        {
+          id: '002b28fc-283c-47ec-9af2-ea287336dc1b',
+          begin: '2021-07-26T17:09:31.036Z',
+          end: '2021-08-29T00:37:42.253Z',
+        },
+      ];
+
+      const error = new Error('Network error');
+      (instance.get as jest.Mock)
+        .mockRejectedValueOnce(error)
+        .mockRejectedValueOnce(error)
+        .mockResolvedValueOnce({ data: mockOutages });
+
+      const res: IOutage[] = await getAllOutages();
+    
+      expect(res).toEqual(mockOutages);
+      expect(instance.get).toHaveBeenCalledTimes(3);
     });
   });
 });
