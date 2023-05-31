@@ -15,3 +15,17 @@ export const getAllOutages = async (): Promise<IOutage[]> => {
   }
   throw new Error(ERROR_MESSAGES.GET_OUTAGES_ERROR);
 };
+
+export const postSiteOutages = async (siteId: string, outages: IOutage[]): Promise<void> => {
+  let attempts = 0;
+  while (attempts < MAX_RETRIES) {
+    try {
+      await instance.post(`/site-outages/${siteId}`, outages);
+      return;
+    } catch (error) {
+      attempts++;
+      await new Promise(resolve => setTimeout(resolve, DELAY_MILLISECONDS));
+    }
+  }
+  throw new Error(ERROR_MESSAGES.POST_OUTAGES_ERROR);
+};
